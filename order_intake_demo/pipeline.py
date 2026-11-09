@@ -17,7 +17,24 @@ def _money(value: Decimal) -> float:
 
 def process_order(payload: dict[str, Any], seen_source_ids: Iterable[str] | None = None) -> dict[str, Any]:
     """Validate and match an order without guessing unknown catalogue identities."""
+    if not isinstance(payload, dict):
+        return {
+            "status": "invalid",
+            "errors": ["payload_must_be_an_object"],
+            "net_total": None,
+            "gross_total": None,
+        }
+
     source_id = payload.get("source_id")
+    if source_id is not None:
+        if not isinstance(source_id, str) or not source_id.strip():
+            return {
+                "status": "invalid",
+                "errors": ["source_id_must_be_a_non_empty_string"],
+                "net_total": None,
+                "gross_total": None,
+            }
+        source_id = source_id.strip()
     if source_id and source_id in set(seen_source_ids or []):
         return {"status": "duplicate", "reason": "source_id_already_processed", "source_id": source_id}
 
@@ -36,6 +53,9 @@ def process_order(payload: dict[str, Any], seen_source_ids: Iterable[str] | None
     net_total = Decimal("0")
 
     for index, line in enumerate(lines, start=1):
+        if not isinstance(line, dict):
+            review_items.append({"line": index, "reason": "invalid_line"})
+            continue
         sku = str(line.get("sku", "")).strip().upper()
         quantity = line.get("quantity")
         product = CATALOG.get(sku)

@@ -30,3 +30,5 @@ curl -X POST http://127.0.0.1:8080/orders/process \
 ## Technologie
 
 Python, standard library HTTP API, `decimal`, `unittest`.
+
+Demo API utrzymuje rejestr `source_id` w pamięci procesu. W systemie produkcyjnym taki rejestr powinien znajdować się w trwałej bazie danych z unikalnym indeksem.
