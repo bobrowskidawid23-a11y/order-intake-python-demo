@@ -1,0 +1,8 @@
+{
+  "source_id": "mail-demo-001",
+  "customer": "Firma Demo",
+  "lines": [
+    { "sku": "PANEL-WHITE-18", "quantity": 3 },
+    { "sku": "EDGE-OAK-22", "quantity": 2 }
+  ]
+}

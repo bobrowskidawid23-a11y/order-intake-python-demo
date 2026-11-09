@@ -1,0 +1,9 @@
+[project]
+name = "order-intake-python-demo"
+version = "1.0.0"
+description = "Fail-closed order intake demo with catalogue matching and review routing"
+requires-python = ">=3.11"
+authors = [{ name = "Dawid Bobrowski" }]
+
+[tool.setuptools.packages.find]
+include = ["order_intake_demo*"]
